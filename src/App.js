@@ -7,7 +7,8 @@ import CommonModel from "./CommonModel";
 import CustomModel from "./CustomModel";
 import { FloatingGrid } from "./FloatingGrid";
 import { Ground } from "./Ground";
-import background from "./image/wherehouse.jpg";
+//import background from "./image/wherehouse.jpg";
+import Wall from "./Wall";
 
 import "./App.css";
 
@@ -33,17 +34,19 @@ const App = () => {
           backgroundColor: "#acb3bf",
           width: "80vw",
           height: "100vh",
-          backgroundImage: `url(${background})`,
+          // backgroundImage: `url(${background})`,
         }}
       >
         <ambientLight intensity={1.25} />
         <ambientLight intensity={0.1} />
         <directionalLight intensity={0.4} />
         <Suspense fallback={null}>
-          <CommonModel selectedModel={action} position={[0, 0.1, 0]} />
+          {/* <CommonModel selectedModel={action} position={[0, 0.1, 0]} /> */}
+          <Wall />
         </Suspense>
-        <Ground />
-        <FloatingGrid />
+        {/* <Ground /> */}
+
+        {/* <FloatingGrid /> */}
         <OrbitControls />
       </Canvas>
       <div
