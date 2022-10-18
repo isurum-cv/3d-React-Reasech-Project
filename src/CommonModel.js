@@ -8,29 +8,45 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 export function CommonModel({ selectedModel, ...props }) {
   const group = useRef();
   //const { nodes, materials, animations }
-  const danceModel = useGLTF("/dance_model.glb");
-  const sittingModel = useGLTF("/sitting_model.glb");
-  const defaultModel = useGLTF("/default_model.glb");
+  const CrouchingModel = useGLTF("glb/Crouching.glb");
+  const LiftingObjectModel = useGLTF("glb/LiftingObject.glb");
+  const PickingUpModel = useGLTF("glb/PickingUp.glb");
+  const SnatchModel = useGLTF("glb/Snatch.glb");
+  const DefaultModel = useGLTF("glb/Default.glb");
 
-  const [nodes, setnodes] = useState(defaultModel.nodes);
-  const [materials, setMaterials] = useState(defaultModel.materials);
-  const defaultAnimations = useAnimations(defaultModel.animations, group);
-  const danceAnimations = useAnimations(danceModel.animations, group);
-  const sittingAnimations = useAnimations(sittingModel.animations, group);
+  const [nodes, setnodes] = useState(DefaultModel.nodes);
+  const [materials, setMaterials] = useState(DefaultModel.materials);
+  const defaultAnimations = useAnimations(DefaultModel.animations, group);
+  const crouchingAnimations = useAnimations(CrouchingModel.animations, group);
+  const liftingObjectAnimations = useAnimations(
+    LiftingObjectModel.animations,
+    group
+  );
+  const pickingUpAnimations = useAnimations(PickingUpModel.animations, group);
+  const snatchAnimations = useAnimations(SnatchModel.animations, group);
   const [actions, setActions] = useState(null);
 
   useEffect(() => {
-    if (selectedModel == "dance") {
-      setnodes(danceModel.nodes);
-      setMaterials(danceModel.materials);
-      setActions(danceAnimations.actions);
-    } else if (selectedModel == "sit") {
-      setnodes(sittingModel.nodes);
-      setMaterials(sittingModel.materials);
-      setActions(sittingAnimations.actions);
+    console.log(selectedModel);
+    if (selectedModel == "Crouching") {
+      setnodes(CrouchingModel.nodes);
+      setMaterials(CrouchingModel.materials);
+      setActions(crouchingAnimations.actions);
+    } else if (selectedModel == "Lifting Object") {
+      setnodes(LiftingObjectModel.nodes);
+      setMaterials(LiftingObjectModel.materials);
+      setActions(liftingObjectAnimations.actions);
+    } else if (selectedModel == "Picking Up") {
+      setnodes(PickingUpModel.nodes);
+      setMaterials(PickingUpModel.materials);
+      setActions(pickingUpAnimations.actions);
+    } else if (selectedModel == "Snatch") {
+      setnodes(SnatchModel.nodes);
+      setMaterials(SnatchModel.materials);
+      setActions(snatchAnimations.actions);
     } else {
-      setnodes(defaultModel.nodes);
-      setMaterials(defaultModel.materials);
+      setnodes(DefaultModel.nodes);
+      setMaterials(DefaultModel.materials);
       setActions(defaultAnimations.actions);
     }
   }, [selectedModel]);
@@ -39,56 +55,58 @@ export function CommonModel({ selectedModel, ...props }) {
     if (actions) actions["Armature|mixamo.com|Layer0"].play();
   });
 
-  // useEffect(() => {
-  //   console.log(danceModel.animations[0].name);
-  //   if (danceModel.animations.length <= 1) {
-  //     const tepmAnimation = { ...danceModel.animations[0] };
-  //     tepmAnimation.name = "custom_animation";
-  //     danceModel.animations.push(tepmAnimation);
-  //   }
-  //   if (sittingModel.animations.length <= 1) {
-  //     const tepmAnimation = { ...sittingModel.animations[0] };
-  //     tepmAnimation.name = "custom_animation";
-  //     sittingModel.animations.push(tepmAnimation);
-  //   }
-  //   if (defaultModel.animations.length <= 1) {
-  //     const tepmAnimation = { ...defaultModel.animations[0] };
-  //     tepmAnimation.name = "custom_animation";
-  //     defaultModel.animations.push(tepmAnimation);
-  //   }
-  //   if (actions && actions["custom_animation"]) {
-  //     actions["custom_animation"].play();
-  //   }
-  // });
-
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
-          <primitive object={nodes.mixamorigHips} />
+          <primitive object={nodes.mixamorig1Hips} />
           <skinnedMesh
-            name="Boy01_Body_Geo"
-            geometry={nodes.Boy01_Body_Geo.geometry}
-            material={materials.Boy01_Body_MAT1}
-            skeleton={nodes.Boy01_Body_Geo.skeleton}
+            name="Ch17_Body"
+            geometry={nodes.Ch17_Body.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Body.skeleton}
           />
           <skinnedMesh
-            name="Boy01_Brows_Geo"
-            geometry={nodes.Boy01_Brows_Geo.geometry}
-            material={materials.Boy01_Brows_MAT2}
-            skeleton={nodes.Boy01_Brows_Geo.skeleton}
+            name="Ch17_Boots"
+            geometry={nodes.Ch17_Boots.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Boots.skeleton}
           />
           <skinnedMesh
-            name="Boy01_Eyes_Geo"
-            geometry={nodes.Boy01_Eyes_Geo.geometry}
-            material={materials.Boy01_Eyes_MAT2}
-            skeleton={nodes.Boy01_Eyes_Geo.skeleton}
+            name="Ch17_Eyelashes"
+            geometry={nodes.Ch17_Eyelashes.geometry}
+            material={materials.Ch17_hair}
+            skeleton={nodes.Ch17_Eyelashes.skeleton}
           />
           <skinnedMesh
-            name="h_Geo"
-            geometry={nodes.h_Geo.geometry}
-            material={materials.Boy01_Mouth_MAT2}
-            skeleton={nodes.h_Geo.skeleton}
+            name="Ch17_Hair"
+            geometry={nodes.Ch17_Hair.geometry}
+            material={materials.Ch17_hair}
+            skeleton={nodes.Ch17_Hair.skeleton}
+          />
+          <skinnedMesh
+            name="Ch17_Helmet"
+            geometry={nodes.Ch17_Helmet.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Helmet.skeleton}
+          />
+          <skinnedMesh
+            name="Ch17_Pants"
+            geometry={nodes.Ch17_Pants.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Pants.skeleton}
+          />
+          <skinnedMesh
+            name="Ch17_Shirt"
+            geometry={nodes.Ch17_Shirt.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Shirt.skeleton}
+          />
+          <skinnedMesh
+            name="Ch17_Vest"
+            geometry={nodes.Ch17_Vest.geometry}
+            material={materials.Ch17_body}
+            skeleton={nodes.Ch17_Vest.skeleton}
           />
         </group>
       </group>
@@ -96,8 +114,10 @@ export function CommonModel({ selectedModel, ...props }) {
   );
 }
 
-useGLTF.preload("/dance_model.glb");
-useGLTF.preload("/sitting_model.glb");
-useGLTF.preload("/default_model.glb");
+useGLTF.preload("glb/Crouching.glb");
+useGLTF.preload("glb/LiftingObject.glb");
+useGLTF.preload("glb/PickingUp.glb");
+useGLTF.preload("glb/Snatch.glb");
+useGLTF.preload("glb/Default.glb");
 
 export default CommonModel;
